@@ -40,19 +40,33 @@ h1 { margin: 0 0 16px; font-weight: 700; }
 /* Marcador do cavalo (overlay) */
 .knight-marker {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
-  font-size: 28px;
+  font-size: 48px; /* aumento sutil */
   user-select: none;
   pointer-events: none;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  /* Contorno ao redor do caractere (não caixa) */
+  border: none;
+  -webkit-text-stroke: 1px #000;
+  paint-order: stroke fill;
+  /* Fallback para navegadores sem text-stroke */
+  text-shadow:
+    1px 0 0 #000,
+    -1px 0 0 #000,
+    0 1px 0 #000,
+    0 -1px 0 #000,
+    1px 1px 0 #000,
+    -1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000;
 }
 
 /* Destacar casas já visitadas */
 .cell.visited {
-  outline: 2px solid rgba(0, 140, 255, 0.6);
-  box-shadow: inset 0 0 0 9999px rgba(0, 140, 255, 0.08);
+  outline: 2px solid rgba(44, 255, 7, 0.843);
+  box-shadow: inset 0 0 0 9999px rgba(79, 255, 21, 0.073);
 }
