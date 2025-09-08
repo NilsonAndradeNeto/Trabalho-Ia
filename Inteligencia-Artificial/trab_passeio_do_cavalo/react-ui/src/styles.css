@@ -67,6 +67,8 @@ h1 { margin: 0 0 16px; font-weight: 700; }
 
 /* Destacar casas já visitadas */
 .cell.visited {
-  outline: 2px solid rgba(44, 255, 7, 0.843);
-  box-shadow: inset 0 0 0 9999px rgba(79, 255, 21, 0.073);
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(44, 255, 7, 0.85), /* anel interno (borda) */
+    inset 0 0 0 9999px rgba(79, 255, 21, 0.073); /* leve preenchimento */
 }
