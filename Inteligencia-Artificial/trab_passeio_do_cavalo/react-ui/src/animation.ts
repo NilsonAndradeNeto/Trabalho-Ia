@@ -88,7 +88,8 @@ async function animateAlong(
 
     const target = centerOf(steps[i].el, container);
 
-    await moveLinear(marker, pos, target, msPerStep, () => cancelled);
+    // Move em formato de L (duas pernas ortogonais)
+    await moveL(marker, pos, target, msPerStep, () => cancelled);
     steps[i].el.classList.add('visited');
     pos = target;
 
@@ -121,6 +122,38 @@ function moveLinear(
     };
     requestAnimationFrame(step);
   });
+}
+
+// Move em "L": primeiro no eixo de maior distância, depois no outro eixo
+function moveL(
+  el: HTMLElement,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  totalDuration: number,
+  isCancelled: () => boolean
+) {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const adx = Math.abs(dx);
+  const ady = Math.abs(dy);
+
+  // Define ponto intermediário para compor o "L"
+  // Escolhe mover primeiro no eixo com maior distância
+  let mid: { x: number; y: number };
+  if (adx >= ady) {
+    mid = { x: to.x, y: from.y }; // horizontal primeiro
+  } else {
+    mid = { x: from.x, y: to.y }; // vertical primeiro
+  }
+
+  // Distribui duração proporcional às distâncias (ex.: 2/3 e 1/3)
+  const sum = adx + ady || 1;
+  const dur1 = Math.round((Math.max(adx, ady) / sum) * totalDuration);
+  const dur2 = Math.max(0, totalDuration - dur1);
+
+  return moveLinear(el, from, mid, dur1, isCancelled).then(() =>
+    moveLinear(el, mid, to, dur2, isCancelled)
+  );
 }
 
 export function startAnimation() {
