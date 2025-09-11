@@ -54,20 +54,34 @@ export function App() {
       {error && <div className="error">{error}</div>}
 
       <div className="content">
-        <div className="board">
-          {Array.from({ length: 8 }).map((_, r) => (
-            <div className="row" key={r}>
-              {Array.from({ length: 8 }).map((__, c) => {
-                const v = board?.[r]?.[c] ?? 0;
-                const dark = (r + c) % 2 === 1;
-                return (
-                  <div key={c} className={"cell " + (dark ? 'dark' : 'light')}>
-                    {v > 0 ? String(v).padStart(2, '0') : ''}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+        <div className="board-area">
+          <div className="ranks">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="rank-label">{8 - i}</div>
+            ))}
+          </div>
+
+          <div className="board">
+            {Array.from({ length: 8 }).map((_, r) => (
+              <div className="row" key={r}>
+                {Array.from({ length: 8 }).map((__, c) => {
+                  const v = board?.[r]?.[c] ?? 0;
+                  const dark = (r + c) % 2 === 1;
+                  return (
+                    <div key={c} className={"cell " + (dark ? 'dark' : 'light')}>
+                      {v > 0 ? String(v).padStart(2, '0') : ''}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+
+          <div className="files">
+            {Array.from({ length: 8 }).map((_, c) => (
+              <div key={c} className="file-label">{String.fromCharCode(65 + c)}</div>
+            ))}
+          </div>
         </div>
 
         <div className="steps">

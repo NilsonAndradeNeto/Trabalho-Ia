@@ -24,7 +24,15 @@ h1 { margin: 0 0 16px; font-weight: 700; }
 
 .content { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-.board { display: grid; grid-template-rows: repeat(8, 1fr); aspect-ratio: 1/1; max-width: 520px; border: 2px solid var(--muted); border-radius: 8px; overflow: hidden; }
+.board-area { display: inline-grid; grid-template-columns: 24px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 24px; grid-template-areas: "ranks board" ". files"; align-items: stretch; justify-items: stretch; gap: 6px; }
+
+.ranks { grid-area: ranks; display: grid; grid-template-rows: repeat(8, 1fr); align-items: center; justify-items: center; color: var(--muted); user-select: none; }
+.rank-label { font-size: 12px; line-height: 1; }
+
+.files { grid-area: files; display: grid; grid-template-columns: repeat(8, 1fr); align-items: center; justify-items: center; color: var(--muted); user-select: none; }
+.file-label { font-size: 12px; line-height: 1; }
+
+.board { grid-area: board; display: grid; grid-template-rows: repeat(8, 1fr); aspect-ratio: 1/1; max-width: 520px; border: 2px solid var(--muted); border-radius: 8px; overflow: hidden; }
 .row { display: grid; grid-template-columns: repeat(8, 1fr); }
 .cell { display: flex; align-items: center; justify-content: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 .cell.light { background: var(--cell-light); color: #0f172a; }
