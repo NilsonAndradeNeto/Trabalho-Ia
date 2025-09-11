@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
+import { cancelAnimation, resetAnimationArtifacts } from './animation';
 import { Board, parseCasa, solveKnightTour } from './knight_core';
 
 export function App() {
-  const [input, setInput] = useState('E4');
+  const [input, setInput] = useState('');
   const [board, setBoard] = useState<Board | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,11 +26,15 @@ export function App() {
 
   const handleSolve = (ev?: React.FormEvent) => {
     ev?.preventDefault();
+    // Interrompe animação em andamento, se houver
+    cancelAnimation();
+    // Limpa destaques e remove o ícone do cavalo
+    resetAnimationArtifacts();
     setError(null);
     setBoard(null);
     const parsed = parseCasa(input);
     if (!parsed) {
-      setError('Entrada inválida. Exemplos: E4, e4, 4 5, 5 4');
+      setError('Entrada inválida. Exemplos: E4, e4');
       return;
     }
     const res = solveKnightTour(parsed.row, parsed.col);

@@ -90,6 +90,7 @@ async function animateAlong(
 
     // Move em formato de L (duas pernas ortogonais)
     await moveL(marker, pos, target, msPerStep, () => cancelled);
+    if (cancelled) break;
     steps[i].el.classList.add('visited');
     pos = target;
 
@@ -169,6 +170,21 @@ export function startAnimation() {
   }
   const marker = ensureMarker(board);
   animateAlong(marker, board, steps).catch(() => (isAnimating = false));
+}
+
+export function cancelAnimation() {
+  if (cancelCurrent) cancelCurrent();
+  isAnimating = false;
+}
+
+export function resetAnimationArtifacts() {
+  const board = document.querySelector('.board') as HTMLElement | null;
+  if (!board) return;
+  // Remove destaques de casas visitadas
+  board.querySelectorAll('.cell.visited').forEach((c) => c.classList.remove('visited'));
+  // Remove marcador do cavalo, se existir
+  const m = document.getElementById('knightMarker');
+  if (m && m.parentElement) m.parentElement.removeChild(m);
 }
 
 // Inicializa quando o app sobe ou sempre que o DOM mudar
