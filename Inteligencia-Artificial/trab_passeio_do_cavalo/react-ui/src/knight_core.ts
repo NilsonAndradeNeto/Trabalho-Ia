@@ -43,7 +43,8 @@ export function parseCasa(s: string): { row: number; col: number } | null {
   const t = s.replace(/\s+/g, '');
   if (t.length === 2 && /[A-Za-z]/.test(t[0]) && /[1-8]/.test(t[1])) {
     const col = t[0].toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0);
-    const row = Number(t[1]) - 1;
+    const rank = Number(t[1]);
+    const row = 8 - rank;
     if (col >= 0 && col < 8 && row >= 0 && row < 8) return { row, col };
   }
   const nums = s.match(/\d+/g)?.map(Number) ?? [];

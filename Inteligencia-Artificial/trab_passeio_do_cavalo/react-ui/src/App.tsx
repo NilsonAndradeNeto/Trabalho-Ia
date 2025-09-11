@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { parseCasa, solveKnightTour, Board } from './knight_core';
+import { Board, parseCasa, solveKnightTour } from './knight_core';
 
 export function App() {
   const [input, setInput] = useState('E4');
@@ -88,12 +88,16 @@ export function App() {
           <h2>Passos</h2>
           {board ? (
             <ol>
-              {stepsList.map(({ step, row, col }) => (
-                <li key={step}>
-                  {step}. ({row + 1}, {col + 1}) — {String.fromCharCode(65 + col)}
-                  {row + 1}
-                </li>
-              ))}
+              {stepsList.map(({ step, row, col }) => {
+                const file = String.fromCharCode(65 + col);
+                const rank = 8 - row;
+                return (
+                  <li key={step}>
+                    {step}. ({row + 1}, {col + 1}) — {file}
+                    {rank}
+                  </li>
+                );
+              })}
             </ol>
           ) : (
             <p>Informe a casa inicial e clique em Calcular.</p>
