@@ -6,6 +6,23 @@ export function App() {
   const [board, setBoard] = useState<Board | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const maskChessNotation = (raw: string) => {
+    const s = raw.replace(/\s+/g, '').toUpperCase();
+    let out = '';
+    for (const ch of s) {
+      if (out.length === 0) {
+        if (/[A-H]/.test(ch)) out = ch;
+      } else if (out.length === 1) {
+        if (/[1-8]/.test(ch)) {
+          out += ch;
+          break; // completa notação, ignora o restante
+        }
+      }
+      if (out.length >= 2) break;
+    }
+    return out.slice(0, 2);
+  };
+
   const handleSolve = (ev?: React.FormEvent) => {
     ev?.preventDefault();
     setError(null);
@@ -44,8 +61,12 @@ export function App() {
           Casa inicial:
           <input
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ex.: E4 ou 4 5"
+            onChange={(e) => setInput(maskChessNotation(e.target.value))}
+            placeholder="Ex.: E4"
+            inputMode="text"
+            maxLength={2}
+            pattern="[A-Ha-h][1-8]"
+            title="Use a notação de xadrez: letra A–H seguida de número 1–8"
           />
         </label>
         <button type="submit">Calcular</button>
